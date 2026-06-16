@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulador de Embalagem | Guia de Embalagens</title>
+  <meta name="description" content="Descubra qual embalagem combina com seu produto.">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script type="module" src="/assets/simulator.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/"><span>Guia</span> de Embalagens</a>
+    <nav class="nav" aria-label="Navegação principal">
+      <a href="/simulador/">Simulador</a>
+      <a href="/orcamento/">Orçamento</a>
+    </nav>
+  </header>
+  <main>
+    <section class="page-title">
+      <p class="eyebrow">Simulador de Embalagem</p>
+      <h1>Descubra qual embalagem combina com seu produto.</h1>
+      <p class="lead">Responda perguntas rápidas e receba uma recomendação prática para cotar com fornecedores.</p>
+    </section>
+    <section class="section simulator-layout">
+      <form id="simulator-form" class="form-card" novalidate>
+        <div class="field"><label for="segment">Qual seu segmento?</label><select id="segment" name="segment" required></select></div>
+        <div class="field"><label for="product">O que você vende?</label><input id="product" name="product" required placeholder="Ex: açaí, sorvete, café, bolo no pote, marmita"></div>
+        <div class="field"><label for="size">Qual porção/tamanho?</label><select id="size" name="size" required></select></div>
+        <div class="field"><label for="monthlyVolume">Quantas unidades por mês?</label><select id="monthlyVolume" name="monthlyVolume" required></select></div>
+        <div class="field"><label for="packagingType">Que tipo de embalagem você procura?</label><select id="packagingType" name="packagingType" required></select></div>
+        <fieldset class="field"><legend class="legend">Onde a embalagem será usada?</legend><div id="usage-options" class="options"></div><p class="help">Você pode marcar mais de uma opção.</p></fieldset>
+        <p id="form-message" class="notice hidden" role="alert"></p>
+        <div class="actions"><button class="button button--primary" type="submit">Ver recomendação</button><button class="button button--secondary" type="reset">Limpar</button></div>
+      </form>
+      <aside id="result" class="result-card" aria-live="polite">
+        <p class="eyebrow">Resultado</p>
+        <h2>Sua recomendação aparecerá aqui</h2>
+        <p class="help">Preencha o simulador para ver tipo indicado, tamanhos, volume mínimo, prazo e próximos passos.</p>
+      </aside>
+    </section>
+    <section class="section">
+      <h2>Como escolher a embalagem ideal?</h2>
+      <p>A escolha depende do produto, porção, temperatura, transporte, volume mensal, personalização, tampa, prazo e fornecedor.</p>
+    </section>
+  </main>
+  <footer class="site-footer">© Guia de Embalagens</footer>
+</body>
+</html>
