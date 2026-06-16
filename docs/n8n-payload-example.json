@@ -1,0 +1,16 @@
+{
+  "lead_id": "GE-20260615-ABCDE",
+  "name": "Maria Cliente",
+  "whatsapp_e164": "5564999999999",
+  "city": "Rio Verde",
+  "state": "GO",
+  "segment": "Açaí",
+  "packaging_type": "Potes",
+  "estimated_quantity": 5000,
+  "needs_custom": "sim",
+  "desired_deadline": "15",
+  "lead_temperature": "hot",
+  "lead_score": 82,
+  "routing_recommendation": "premium",
+  "notes": "Precisa pote 500ml personalizado com tampa."
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Leads locais — Guia de Embalagens</title>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <style>
+    :root{--green:#0f2e24;--orange:#ff7a00;--line:#dfe7e3;--muted:#6f7d78;--soft:#f2f4f2;--graphite:#26332f}*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#f7f9f8;color:var(--graphite)}.wrap{width:min(1180px,calc(100% - 32px));margin:32px auto}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}.top img{width:220px}.card{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 12px 32px rgba(15,46,36,.08);padding:20px}.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:999px;background:var(--green);color:#fff;padding:12px 16px;font-weight:800;cursor:pointer}.btn.orange{background:var(--orange)}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;border-bottom:1px solid var(--line);padding:12px 10px;vertical-align:top}th{color:var(--green);font-size:12px;text-transform:uppercase;letter-spacing:.04em}.badge{display:inline-flex;border-radius:999px;color:#fff;padding:5px 8px;font-size:11px;font-weight:900;text-transform:uppercase}.hot{background:var(--orange)}.medium{background:#9a6a00}.weak{background:#6f7d78}.muted{color:var(--muted)}pre{white-space:pre-wrap;background:#0f2e24;color:#fff;border-radius:16px;padding:16px;overflow:auto}.empty{text-align:center;color:var(--muted);padding:48px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a href="index.html"><img src="assets/img/logo-guia-embalagens.svg" alt="Guia de Embalagens"></a>
+      <div class="actions">
+        <button class="btn" id="exportCsv">Exportar CSV</button>
+        <button class="btn orange" id="clearLeads">Limpar locais</button>
+      </div>
+    </div>
+    <div class="card">
+      <h1>Leads salvos localmente</h1>
+      <p class="muted">Essa tela mostra apenas os leads de teste gravados no navegador quando o backend ainda não está configurado.</p>
+      <div id="table"></div>
+    </div>
+  </div>
+  <script>
+    const key = "guia_embalagens_leads";
+    const leads = JSON.parse(localStorage.getItem(key) || "[]");
+    const table = document.getElementById("table");
+    function badge(temp, label){ return `<span class="badge ${temp}">${label}</span>`; }
+    function render(){
+      if(!leads.length){ table.innerHTML = '<div class="empty">Nenhum lead local encontrado.</div>'; return; }
+      table.innerHTML = `<table><thead><tr><th>Data</th><th>Nome</th><th>WhatsApp</th><th>Cidade/UF</th><th>Segmento</th><th>Tipo</th><th>Qtd</th><th>Lead</th><th>Rota</th></tr></thead><tbody>${leads.map(l => `<tr><td>${new Date(l.created_at).toLocaleString('pt-BR')}</td><td>${l.name}</td><td>${l.whatsapp}</td><td>${l.city}/${l.state}</td><td>${l.segment}</td><td>${l.packaging_type}</td><td>${Number(l.estimated_quantity).toLocaleString('pt-BR')}</td><td>${badge(l.lead_temperature,l.lead_label)}<br><small>score ${l.lead_score}</small></td><td>${l.routing_recommendation}</td></tr>`).join('')}</tbody></table>`;
+    }
+    function toCsv(rows){
+      const headers = ['created_at','lead_id','name','whatsapp','city','state','segment','packaging_type','estimated_quantity','needs_custom','desired_deadline','lead_temperature','lead_score','routing_recommendation','notes'];
+      const esc = v => '"' + String(v ?? '').replaceAll('"','""') + '"';
+      return [headers.join(','), ...rows.map(r => headers.map(h => esc(r[h])).join(','))].join('\n');
+    }
+    document.getElementById('exportCsv').onclick = () => {
+      const blob = new Blob([toCsv(leads)], {type:'text/csv;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'leads-guia-embalagens.csv'; a.click(); URL.revokeObjectURL(url);
+    };
+    document.getElementById('clearLeads').onclick = () => { if(confirm('Limpar leads locais?')){ localStorage.removeItem(key); location.reload(); } };
+    render();
+  </script>
+</body>
+</html>

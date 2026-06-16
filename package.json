@@ -1,0 +1,14 @@
+{
+  "name": "guia-embalagens-dia2",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "serve": "python -m http.server 8080"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "vercel": "latest"
+  }
+}
